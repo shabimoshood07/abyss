@@ -3,8 +3,8 @@ import "./actionWindow.css";
 import Categories from "../Categories/Categories";
 
 const ActionWindow = ({ zoom }: { zoom: number }) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const boxRef = useRef<HTMLUListElement>(null);
+  const actionConRef = useRef<HTMLDivElement>(null);
+  const draggableConRef = useRef<HTMLUListElement>(null);
   const isClicked = useRef<boolean>(false);
   const coords = useRef<{
     startX: number;
@@ -19,10 +19,16 @@ const ActionWindow = ({ zoom }: { zoom: number }) => {
   });
 
   useEffect(() => {
-    if (!boxRef.current || !containerRef.current) return;
+    const box = draggableConRef.current;
+    box!.style.top = "100px";
+    box!.style.left = "45%";
+  }, []);
 
-    const box = boxRef.current;
-    const container = containerRef.current;
+  useEffect(() => {
+    if (!draggableConRef.current || !actionConRef.current) return;
+
+    const box = draggableConRef.current;
+    const container = actionConRef.current;
 
     const onMouseDown = (e: MouseEvent) => {
       isClicked.current = true;
@@ -38,7 +44,6 @@ const ActionWindow = ({ zoom }: { zoom: number }) => {
 
     const onMouseMove = (e: MouseEvent) => {
       if (!isClicked.current) return;
-
       const nextX = e.clientX - coords.current.startX + coords.current.lastX;
       const nextY = e.clientY - coords.current.startY + coords.current.lastY;
 
@@ -67,57 +72,6 @@ const ActionWindow = ({ zoom }: { zoom: number }) => {
     subCat: Data[];
   }
 
-  // const [data, setData] = useState<Data[]>([
-  //   {
-  //     id: 1,
-  //     text: "Categories",
-  //     subCat: [
-  //       {
-  //         id: 3,
-  //         text: "cat 1",
-  //         subCat: [
-  //           {
-  //             id: 40,
-  //             text: "1",
-  //             subCat: [],
-  //           },
-  //           {
-  //             id: 0,
-  //             text: "wwwww",
-  //             subCat: [
-  //               {
-  //                 id: 69,
-  //                 text: "wwwww",
-  //                 subCat: [],
-  //               },
-  //             ],
-  //           },
-  //           {
-  //             id: 25,
-  //             text: "rrrrr",
-  //             subCat: [],
-  //           },
-  //         ],
-  //       },
-  //       {
-  //         id: 2,
-  //         text: "cat 2",
-  //         subCat: [
-  //           {
-  //             id: 23,
-  //             text: "223",
-  //             subCat: [],
-  //           },
-  //           {
-  //             id: 67,
-  //             text: "33334",
-  //             subCat: [],
-  //           },
-  //         ],
-  //       },
-  //     ],
-  //   },
-  // ]);
   const [data, setData] = useState<Data[]>([
     {
       id: 1,
@@ -171,41 +125,37 @@ const ActionWindow = ({ zoom }: { zoom: number }) => {
     });
   };
 
-  const scrollUp = () => {
-    if (boxRef) {
+  const scrollUp = (): void => {
+    if (draggableConRef) {
       let top: Number =
-        Number(`${boxRef.current?.style.top.slice(0, -2)}`) - 10;
-      boxRef.current!.style.top = top + "px";
+        Number(`${draggableConRef.current?.style.top.slice(0, -2)}`) - 10;
+      draggableConRef.current!.style.top = top + "px";
     }
   };
-  const scrollUDown = () => {
-    console.log("clicked");
-
-    if (boxRef) {
+  const scrollUDown = (): void => {
+    if (draggableConRef) {
       let bottom: Number =
-        Number(`${boxRef.current?.style.top.slice(0, -2)}`) + 10;
-      boxRef.current!.style.top = bottom + "px";
+        Number(`${draggableConRef.current?.style.top.slice(0, -2)}`) + 10;
+      draggableConRef.current!.style.top = bottom + "px";
     }
   };
-  const scrollLeft = () => {
-    if (boxRef) {
+  const scrollLeft = (): void => {
+    if (draggableConRef) {
       let left: Number =
-        Number(`${boxRef.current?.style.left.slice(0, -2)}`) - 10;
-      boxRef.current!.style.left = left + "px";
+        Number(`${draggableConRef.current?.style.left.slice(0, -2)}`) - 10;
+      draggableConRef.current!.style.left = left + "px";
     }
   };
-  const scrollRight = () => {
-    console.log("clicked");
-
-    if (boxRef) {
+  const scrollRight = (): void => {
+    if (draggableConRef) {
       let right: Number =
-        Number(`${boxRef.current?.style.left.slice(0, -2)}`) + 10;
-      boxRef.current!.style.left = right + "px";
+        Number(`${draggableConRef.current?.style.left.slice(0, -2)}`) + 10;
+      draggableConRef.current!.style.left = right + "px";
     }
   };
 
   return (
-    <div className="action-container" ref={containerRef}>
+    <div className="action-container" ref={actionConRef}>
       <button className="scroll-btn top" onClick={scrollUp}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -271,7 +221,7 @@ const ActionWindow = ({ zoom }: { zoom: number }) => {
         </svg>
       </button>
 
-      <ul id="window" ref={boxRef} style={{ zoom }}>
+      <ul id="window" ref={draggableConRef} style={{ zoom }}>
         {data.map((category) => (
           <Categories
             category={category}
