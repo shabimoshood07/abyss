@@ -1,0 +1,62 @@
+header {
+  padding: 15px 20px;
+  border-bottom: solid gray;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.logo-btn {
+  border: transparent;
+  background-color: transparent;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.control-btn {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  width: fit-content;
+}
+.control-btn button {
+  height: 30px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  text-transform: uppercase;
+  font: 500;
+}
+
+.icon {
+  height: 10px;
+  width: 10px;
+  color: black;
+}
+.zoom-controls {
+  display: flex;
+  gap: 2px;
+}
+
+.zoom-controls button:disabled {
+  cursor: default;
+}
+.view-controls {
+  display: flex;
+  gap: 2px;
+}
+
+.zoom-select{
+  height: 100%;
+}
+.zoom-select select{
+  height: 100%;
+}
